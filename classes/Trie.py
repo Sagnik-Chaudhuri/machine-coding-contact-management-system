@@ -1,62 +1,25 @@
-from string import ascii_letters
 from classes.TrieNode import TrieNode
 
 
 class Trie():
-
     def __init__(self) -> None:
-        self.root = TrieNode()
+        self.__root = TrieNode()
+        self.counter = 0
 
     def insert(self, word: str) -> None:
-        length = len(word)
-        itr = self.root
-        for i in range(0, length):
-            nextNode = itr.children.get(word[i])
-            if nextNode is None:
-                nextNode = TrieNode()
-                itr.children[word[i]] = nextNode
+        itr = self.__root
+        for i in range(0, len(word)):
+            next_node = itr.children.get(word[i])
+            if next_node is None:
+                next_node = TrieNode()
+                itr.children[word[i]] = next_node
 
-            itr = nextNode
-            if i == length - 1:
+            itr = next_node
+            if i == len(word) - 1:
                 itr.end = True
 
-    def get_words_after_each_key_press(self, word):
-        prevNode = self.root
-        prefix = ""
-        length = len(word)
-        i = 0
-        while (i < length):
-            prefix += word[i]
-            last_char = prefix[i]
-            currNode = prevNode.children.get(last_char)
-
-            if currNode is None:
-                print('\nNo results Found for ', prefix)
-                i += 1
-                break
-
-            print('\nsuggestions for: ', prefix, ' are: ')
-            self.display_words_util(currNode, prefix)
-
-            prevNode = currNode
-            i += 1
-
-        while (i < length):
-            prefix += word[i]
-            print("no results found for ", prefix)
-
-    def display_words_util(self, currNode, prefix):
-        if currNode.end is True:
-            print(prefix)
-
-        for char in ascii_letters:
-            nextNode = currNode.children.get(char)
-            if nextNode is not None:
-                # print("prefix: ", prefix[-1], "char", char)
-                self.display_words_util(nextNode, prefix + char + "")
-
-    def get_words(self, word):
-        node = self.root
+    def prefix_search_by_word(self, word):
+        node = self.__root
         for char in word:
             if not node.children.get(char):
                 return 0
@@ -65,12 +28,31 @@ class Trie():
         if not node.children:
             return -1
 
-        self.name_suggestions(node, word)
+        self.get_word_suggestions(node, word)
         return 1
 
-    def name_suggestions(self, node, word):
+    def get_word_suggestions(self, node, word):
         if node.end:
             print(word)
+            self.counter += 1
 
         for a, n in node.children.items():
-            self.name_suggestions(n, word + a)
+            self.get_word_suggestions(n, word + a)
+
+    def update_trie_by_word(self, lookup_word, new_word):
+        found = True
+
+        i = 0
+        itr = self.__root
+        prev = None
+        while i < len(new_word):
+            if lookup_word[i] == new_word[i] and itr.children.get(new_word[i]) is not None:
+                i += 1
+                prev = itr
+                itr = itr.children[new_word[i]]
+                continue
+            else:
+
+                break
+
+        return None

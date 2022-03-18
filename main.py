@@ -3,15 +3,18 @@ from classes.PhoneBook import PhoneBook
 
 def main():
 
-    phonebook = PhoneBook()
-    phonebook.add_contact("Sagnik", 5)
-    phonebook.add_contact("Sagnika", 56)
-    # phonebook.prefix_search_contact_by_name_key_press("Sagnik")
-    # phonebook.prefix_search_contact_by_name_key_press("Sagnk")
-    # phonebook.search_contact_by_number(5)
-    phonebook.prefix_search_contact_by_name("Sagnk")
+    # print("Hello World")
 
-    return None
+    phonebook = PhoneBook()
+    phonebook.add_contact("abcd", "asca", "55")
+    phonebook.add_contact("as", "asd", "56")
+    phonebook.add_contact("asd", "asdac", "567")
+    phonebook.add_contact("asdf", "asda", "5612")
+    # phonebook.search_contact_by_number("55")
+    # phonebook.search_contact_by_first_name("a")
+
+    phonebook.prefix_search_contact_by_last_name("as")
+    # phonebook.prefix_search_contact_by_number("5")
 
 
 main()
